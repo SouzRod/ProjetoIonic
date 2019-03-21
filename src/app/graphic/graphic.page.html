@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Gráfico</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <ion-segment [(ngModel)]="segment" (ionChange)="calc(segment)">
+      <ion-segment-button value="bar">
+        Bar
+      </ion-segment-button>
+      <ion-segment-button value="doughnut">
+        Doughnut
+      </ion-segment-button>
+      <ion-segment-button value="random">
+        Random
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+  <hr>
+
+  <div [ngSwitch]="segment">
+    <ion-list *ngSwitchCase="'bar'">
+      <div>
+        <ion-list>
+          <ion-item>
+            <ion-select [(ngModel)]="tipoGrafico" (ionChange)="getGrafico(tipoGrafico)">
+              <ion-select-option value="0">Séries 1</ion-select-option>
+              <ion-select-option value="1">Séries 2</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+      </div>
+      <div style="display: block">
+        <canvas baseChart [datasets]="DatasBar.chartData" [labels]="DatasBar.chartLabels" [legend]="ChartLegend"
+          [chartType]="DatasBar.chartType"></canvas>
+      </div>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'doughnut'">
+      <div>
+        <ion-list>
+          <ion-item>
+            <ion-select [(ngModel)]="tipoGrafico" (ionChange)="getGrafico(tipoGrafico)">
+              <ion-select-option value="2">Vendas 1</ion-select-option>
+              <ion-select-option value="3">Vendas 2</ion-select-option>
+              <ion-select-option value="4">Gênero</ion-select-option>
+              <ion-select-option value="5">Linguagem</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+      </div>
+      <div style="display: block">
+        <canvas baseChart [data]="DatasDoughnut.chartData" [labels]="DatasDoughnut.chartLabels" [legend]="ChartLegend"
+          [chartType]="DatasDoughnut.chartType"></canvas>
+      </div>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'random'">
+      <div>
+        <ion-list *ngIf="DatasRandom">
+          <div style="display: block">
+            <canvas baseChart *ngIf="DatasRandom.chartType == 'bar'" [datasets]="DatasRandom.chartData"
+              [labels]="DatasRandom.chartLabels" [legend]="ChartLegend" [chartType]="DatasRandom.chartType"></canvas>
+
+            <canvas baseChart *ngIf="DatasRandom.chartType == 'doughnut'" [data]="DatasRandom.chartData"
+              [labels]="DatasRandom.chartLabels" [legend]="ChartLegend" [chartType]="DatasRandom.chartType"></canvas>
+          </div>
+        </ion-list>
+      </div>
+    </ion-list>
+  </div>
+</ion-content>
